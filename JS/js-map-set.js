@@ -77,3 +77,66 @@ setTest.delete(2);
 
 setTest.clear();
 //console.log(setTest)
+
+/* *************MyArray*****************************************/
+
+// * Сделать MyArray итерируемым.
+
+class MyArray {
+  constructor(length = 0) {
+    this.length = length;
+  }
+
+  pop() {
+    if (this.length === 0) {
+      return;
+    }
+    const lastItem = this[this.length - 1];
+    delete this[--this.length];
+    return lastItem;
+  }
+  push() {
+    for (let i = 0; i < arguments.length; i++) {
+      this[this.length] = arguments[i];
+      ++this.length;
+    }
+    return this.length;
+  }
+  shift() {
+    if (this.length === 0) {
+      return;
+    }
+    const fistItem = this[0];
+    for (let i = 0; i < this.length - 1; i++) {
+      this[i] = this[i + 1];
+    }
+    delete this[--this.length];
+    return fistItem;
+  }
+
+  [Symbol.iterator]() {
+    let i = 0;
+    const maxValue = this.length - 1;
+    return {
+      next: () => {
+        if (i > maxValue) {
+          return {
+            value: undefined,
+            done: true,
+          };
+        }
+        return {
+          value: i++,
+          done: false,
+        };
+      },
+    };
+  }
+}
+const myArr = new MyArray();
+myArr.push(1, 2, 3, 4, 5, 6);
+console.log(myArr);
+
+for (const value of myArr) {
+  console.log("Значения класса MyArray:", myArr[value]);
+}
